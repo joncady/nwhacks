@@ -88,12 +88,14 @@ class App extends Component {
 			<div className="App">
 				<Nav></Nav>
 				<main id="background">
-					<SendAudio></SendAudio>
-					<Controls startStream={this.startStream}></Controls>
-					{this.state.errorMessage &&
-                    <Alert color="danger">
-                        {this.state.errorMessage}
-                    </Alert>}
+					<div className="backgroundOverlay">
+						<SendAudio></SendAudio>
+						<Controls startStream={this.startStream}></Controls>
+						{this.state.errorMessage &&
+							<Alert color="danger">
+								{this.state.errorMessage}
+							</Alert>}
+					</div>
 				</main>
 			</div>
 		);

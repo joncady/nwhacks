@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, NavbarBrand } from 'reactstrap';
+import { Navbar, NavbarBrand, Button } from 'reactstrap';
 
 export default class Nav extends Component {
 
@@ -7,6 +7,7 @@ export default class Nav extends Component {
         return (
             <Navbar light expand="md" id ="titleFont">
                 <NavbarBrand style={{ color: 'white', fontSize: "40px"}} href="/">Duet With Me</NavbarBrand>
+                <Button className = "topButton">Some Button</Button>
             </Navbar>
         );
     }
