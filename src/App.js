@@ -8,7 +8,7 @@ class App extends Component {
 		return (
 			<div className="App">
 				<Nav></Nav>
-				<main>
+				<main id="background">
 					<SendAudio></SendAudio>
 					<Controls></Controls>
 				</main>

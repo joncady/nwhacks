@@ -6,7 +6,17 @@ class Controls extends Component {
     render() {
         return (
             <div>
-                <Button>Stop</Button>
+                <div id="buttonContainer">
+                    <Button>
+                        Select Music  
+                    </Button>
+                    <Button>
+                        Play Along
+                    </Button>
+                    <Button>
+                        Set your Pace
+                    </Button>
+                </div>
             </div>
         )
     }

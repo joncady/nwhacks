@@ -20,11 +20,13 @@ export default class SendAudio extends Component {
         const { url } = this.state;
         var constraints = { audio: true, video: false }
         var audioContext = new AudioContext;
-        let player = new Tone.Player('http://localhost:8000/song?name=bach.mp3').toMaster();
-        this.setState({
-            player: player
-        });
-        player.autostart = true;
+        if (!this.state.player) {
+            let player = new Tone.Player('http://localhost:8000/song?name=bach.mp3').toMaster();
+            this.setState({
+                player: player
+            });
+            player.autostart = true;
+        }
         navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
             console.log("getUserMedia() success, strem created, initializing Recorder.js ...");
 
@@ -66,7 +68,7 @@ export default class SendAudio extends Component {
                     this.setState({
                         bar: dataObject.bar
                     });
-                    this.state.player.seek(dataObject.bar);
+                    this.state.player.seek(dataObject.bar * 4);
                 } else if (dataObject.type == "stop") {
                     console.log("Playback");
                 } else {
@@ -81,12 +83,18 @@ export default class SendAudio extends Component {
     render() {
         return (
             <div>
-                <input id="send-audio" type="image" onClick={this.startStream} src={require('./assets/music.png')} />
+                {/* onClick={this.startStream} */}
+                <div id="banner">
+                    <div id = "logo">
+                        <input id="send-audio" type="image" onClick={this.startStream} src={require('./assets/music.png')} />
+                    </div>
+                    <h3 id="mainTitle">Start Here</h3>
+                </div>
                 <p>{this.state.bar}</p>
                 {this.state.errorMessage &&
-                <Alert color="danger">
-                    {this.state.errorMessage}
-                </Alert>}
+                    <Alert color="danger">
+                        {this.state.errorMessage}
+                    </Alert>}
             </div>
         );
     }

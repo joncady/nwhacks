@@ -1,7 +1,55 @@
+@import url('https://fonts.googleapis.com/css?family=Satisfy');
+
 #send-audio {
-	width: 200px;
-	margin: 50px;
-	padding: 30px;
-	border: 3px solid black;
+	width: 150px;
+	height: 150px;
+	padding: 20px;
+	transform: rotate(-45deg);
+}
+
+#background {
+	background-image: url(./img/dan-gold-274702-unsplash.jpg);
+	background-size: 100%;
+}
+
+#titleFont {
+	font-family: 'Satisfy', cursive;
+}
+
+.buttons {
+	text-align: center;
+	height: 50px;
+	width: 70px;
+}
+
+#buttonContainer{
+	display: flex;
+	justify-content: space-evenly;
+}
+
+#mainTitle {
+	color: white;
+	font-family: 'Satisfy', cursive;
+	margin: 40px;
+	font-size: 80px;
+	float: left;
+}
+
+.navbar {
+	background-color: #833939;
+	height: 80px;
+}
+
+#banner {
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	padding: 80px 0 80px 0;
+}
+
+#logo {
+	border: 3px solid white;
 	border-radius: 50px;
+	transform: rotate(45deg);
+
 }

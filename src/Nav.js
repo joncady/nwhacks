@@ -5,8 +5,8 @@ export default class Nav extends Component {
 
     render() {
         return (
-            <Navbar color="light" light expand="md">
-                <NavbarBrand href="/">Duet With Me</NavbarBrand>
+            <Navbar light expand="md" id ="titleFont">
+                <NavbarBrand style={{ color: 'white', fontSize: "40px"}} href="/">Duet With Me</NavbarBrand>
             </Navbar>
         );
     }
