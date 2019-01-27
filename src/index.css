@@ -81,6 +81,10 @@ body {
 	box-shadow: 15px 15px 0 0 #8B6248;
 }
 
+.pulseLogo {
+	animation: pulse 5s infinite;
+}
+
 .chooser {
 	flex-basis: 1;
 }
@@ -93,3 +97,14 @@ body {
 .modal-standards {
 	padding: 20px;
 }
+
+  @keyframes pulse {
+	0% , 100% {
+		transform: scale(1) rotate(45deg);
+		background-color: rgba(255, 0 ,0, 0.2);
+	} 50% { 
+		transform: scale(1.1) rotate(45deg);
+		background-color: rgba(255, 0 ,0, 0.6);
+	}
+  }
+  
