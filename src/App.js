@@ -15,7 +15,8 @@ class App extends Component {
 			url: "http://localhost:8000/audio",
 			bar: '',
 			errorMessage: null,
-			player: null
+			player: null,
+			selectedSong: null
 		}
 	}
 
@@ -24,7 +25,7 @@ class App extends Component {
 		var constraints = { audio: true, video: false }
 		var audioContext = new AudioContext();
 		if (!this.state.player) {
-			let player = new Tone.Player('http://localhost:8000/song?name=bach.mp3').toMaster();
+			let player = new Tone.Player(`http://localhost:8000/song?name=${this.state.selectedSong}`).toMaster();
 			this.setState({
 				player: player
 			});
@@ -52,6 +53,12 @@ class App extends Component {
 			// }, 3000);
 		})
 
+	}
+
+	setSong = (song) => {
+		this.setState({
+			selectedSong: song
+		})
 	}
 
 	sendAudio(mic, url) {
@@ -90,7 +97,7 @@ class App extends Component {
 				<main id="background">
 					<div className="backgroundOverlay">
 						<SendAudio></SendAudio>
-						<Controls startStream={this.startStream}></Controls>
+						<Controls startStream={this.startStream} setSong={this.setSong}></Controls>
 						{this.state.errorMessage &&
 							<Alert color="danger">
 								{this.state.errorMessage}

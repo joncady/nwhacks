@@ -35,9 +35,8 @@
 
 /*I know this is hacky but it's just a fix for now*/
 .topButton {
-	float: right;
-	margin-left: 78%;
 	width: 100px;
+	margin: 0px;
 }
 
 #buttonContainer{
@@ -45,7 +44,7 @@
 	justify-content: space-evenly;
 	text-align: center;
 	font-family: 'Noto Serif SC', serif;
-	background-color: rgba(175,159,159,0.3);
+	background-color: rgba(175,159,159,0.4);
 }
 
 #mainTitle {
@@ -72,13 +71,18 @@
 	border: 3px solid white;
 	border-radius: 50px;
 	transform: rotate(45deg);
-}
-
-main {
-	height: 87vh;
+	box-shadow: 15px 15px 0 0 #8B6248;
 }
 
 .chooser {
 	flex-basis: 1;
-	box-shadow: 15px 15px 0 0 #8B6248;
+}
+
+#button-div {
+	text-align: right;
+	width: 100%;
+}
+
+.modal-standards {
+	padding: 20px;
 }

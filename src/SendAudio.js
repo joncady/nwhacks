@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Alert } from 'reactstrap';
 
 export default class SendAudio extends Component {
 
