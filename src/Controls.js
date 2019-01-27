@@ -49,7 +49,7 @@ class Controls extends Component {
         if (file) {
             let form = new FormData();
             form.append("song", file);
-            axios.post('https://duetwithme.herokuapp.com/upload', form, {
+            axios.post('http://localhost:8000/upload', form, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
