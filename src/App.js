@@ -17,7 +17,8 @@ class App extends Component {
 			errorMessage: null,
 			player: null,
 			selectedSong: null,
-			modal: false
+			modal: false,
+			recording: false
 		}
 	}
 
@@ -26,18 +27,25 @@ class App extends Component {
 			modal: !this.state.modal
 		})
 	}
-	
+
 	componentDidMount() {
 		document.body.addEventListener('keyup', (e) => {
-			if (this.state.selectedSong) {
-				if (e.key === " ") {
-					this.startStream();
+			if (e.key === " ") {
+				if (this.state.selectedSong) {
+					if (this.state.playing) {
+						this.state.player.stop();
+						this.setState({
+							playing: false
+						})
+					} else {
+						this.startStream();
+					}
+				} else {
+					this.setState({
+						errorMessage: "Please confirm your song!",
+						modal: true
+					});
 				}
-			} else {
-				this.setState({
-					errorMessage: "Please confirm your song!",
-					modal: true
-				});
 			}
 		});
 	}
@@ -47,9 +55,10 @@ class App extends Component {
 		var constraints = { audio: true, video: false }
 		var audioContext = new AudioContext();
 		if (!this.state.player) {
-			let player = new Tone.Player({ url: `http://localhost:8000/song?name=${this.state.selectedSong}`, autostart: true }).toMaster();
+			let player = new Tone.Player({ url: `http://localhost:8000/song?name=${this.state.selectedSong}` }).toMaster();
 			this.setState({
-				player: player
+				player: player,
+				playing: true
 			});
 		}
 		navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
@@ -58,15 +67,18 @@ class App extends Component {
 			/* use the stream */
 			let input = audioContext.createMediaStreamSource(stream);
 
-            /* 
-            Create the Recorder object and configure to record mono sound (1 channel)
-            Recording 2 channels  will double the file size
-            */
+			/* 
+			Create the Recorder object and configure to record mono sound (1 channel)
+			Recording 2 channels  will double the file size
+			*/
 			let mic = new rec.Recorder(input, { numChannels: 1 })
 			mic.record();
+			this.setState({
+				recording: true
+			});
 			setTimeout(() => {
 				this.sendAudio(mic, url);
-			}, 3000); 
+			}, 3000);
 		});
 	}
 
@@ -81,7 +93,8 @@ class App extends Component {
 			let form = new FormData();
 			form.append("data", file);
 			this.setState({
-				errorMessage: null
+				errorMessage: null,
+				recording: false
 			});
 			axios.post(url, form, {
 				headers: {
@@ -89,11 +102,12 @@ class App extends Component {
 				}
 			}).then((res) => {
 				let dataObject = res.data;
+				console.log(dataObject.bar);
 				if (dataObject.type === "location") {
 					this.setState({
 						bar: dataObject.bar
 					});
-					this.state.player.seek(dataObject.bar * 4);
+					this.state.player.start(0, (dataObject.bar - 1) * 4);
 				} else if (dataObject.type === "stop") {
 					this.state.player.stop();
 				} else {
@@ -126,7 +140,7 @@ class App extends Component {
 				<Nav></Nav>
 				<main id="background">
 					<div className="backgroundOverlay">
-						<SendAudio></SendAudio>
+						<SendAudio recording={this.state.recording}></SendAudio>
 						<Controls startStream={this.startStream} setSong={this.setSong} setError={this.setError}></Controls>
 					</div>
 					{this.renderErrorModal()}

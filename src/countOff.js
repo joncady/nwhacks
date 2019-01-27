@@ -12,8 +12,7 @@ exports.CountOff = function (timeS, bpm, cb) {
 	var loop = new Tone.Loop(function (timeS) {
 		synth.triggerAttackRelease("C1", "16n", timeS);
 	}, "4n").start(0);
-	Tone.Transport.start().stop('6m');
+	Tone.Transport.start().stop('1m');
 	Tone.Transport.clear();
-	// sends audio to backend
 	cb();
 }
