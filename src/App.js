@@ -9,8 +9,10 @@ class App extends Component {
 			<div className="App">
 				<Nav></Nav>
 				<main id="background">
-					<SendAudio></SendAudio>
-					<Controls></Controls>
+					<div className="backgroundOverlay">
+						<SendAudio></SendAudio>
+						<Controls></Controls>
+					</div>
 				</main>
 			</div>
 		);
