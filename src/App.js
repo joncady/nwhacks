@@ -50,12 +50,12 @@ class App extends Component {
 		});
 	}
 
-	startStream = () => {
+	startStream = (bpm) => {
 		const { url } = this.state;
 		var constraints = { audio: true, video: false }
 		var audioContext = new AudioContext();
 		if (!this.state.player) {
-			let player = new Tone.Player({ url: `http://localhost:8000/song?name=${this.state.selectedSong}` }).toMaster();
+			let player = new Tone.Player({ url: `http://localhost:8000/song?name=${this.state.selectedSong}`, playbackRate: Math.round(bpm / 90 * 10) / 10 }).toMaster();
 			this.setState({
 				player: player,
 				playing: true

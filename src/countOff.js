@@ -14,5 +14,5 @@ exports.CountOff = function (timeS, bpm, cb) {
 	}, "4n").start(0);
 	Tone.Transport.start().stop('1m');
 	Tone.Transport.clear();
-	cb();
+	cb(bpm);
 }

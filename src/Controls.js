@@ -10,8 +10,8 @@ class Controls extends Component {
         this.state = {
             songs: null,
             songChoice: null,
-            tempo: 60,
-            timeSignatureTop: 4,
+            tempo: 90,
+            timeSignatureTop: 6,
             timeSignatureBot: 4,
             modal: false,
             songModal: false,
