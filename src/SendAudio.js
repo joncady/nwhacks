@@ -9,7 +9,7 @@ export default class SendAudio extends Component {
                     <div id = "logo">
                         <img id="send-audio" src={require('./assets/music.png')} />
                     </div>
-                    <h3 id="mainTitle">Start Here</h3>
+                        <h3 id="mainTitle">Start Here</h3>
                 </div>
             </div>
         );
