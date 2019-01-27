@@ -7,9 +7,9 @@ export default class Nav extends Component {
         return (
             <Navbar light expand="md" id="titleFont">
                 <NavbarBrand style={{ color: 'white', fontSize: "40px" }} href="/">Duet With Me</NavbarBrand>
-                <div id="button-div">
+                {/* <div id="button-div">
                     <Button className="topButton">Some Button</Button>
-                </div>
+                </div> */}
             </Navbar>
         );
     }

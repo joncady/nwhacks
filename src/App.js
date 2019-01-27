@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Controls from './Controls';
 import SendAudio from './SendAudio';
 import Nav from './Nav';
-import { Alert } from 'reactstrap';
+import { Modal } from 'reactstrap';
 import axios from 'axios';
 import * as Tone from 'tone';
 const rec = require('./Recorderjs-master/lib/recorder');
@@ -16,8 +16,30 @@ class App extends Component {
 			bar: '',
 			errorMessage: null,
 			player: null,
-			selectedSong: null
+			selectedSong: null,
+			modal: false
 		}
+	}
+
+	toggle = () => {
+		this.setState({
+			modal: !this.state.modal
+		})
+	}
+	
+	componentDidMount() {
+		document.body.addEventListener('keyup', (e) => {
+			if (this.state.selectedSong) {
+				if (e.key === " ") {
+					this.startStream();
+				}
+			} else {
+				this.setState({
+					errorMessage: "Please confirm your song!",
+					modal: true
+				});
+			}
+		});
 	}
 
 	startStream = () => {
@@ -25,17 +47,13 @@ class App extends Component {
 		var constraints = { audio: true, video: false }
 		var audioContext = new AudioContext();
 		if (!this.state.player) {
-			let player = new Tone.Player(`http://localhost:8000/song?name=${this.state.selectedSong}`).toMaster();
+			let player = new Tone.Player({ url: `http://localhost:8000/song?name=${this.state.selectedSong}`, autostart: true }).toMaster();
 			this.setState({
 				player: player
 			});
-			player.autostart = true;
 		}
 		navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-			console.log("getUserMedia() success, strem created, initializing Recorder.js ...");
-
-			/* assign to gumStream for later use */
-			// gumStream = stream;
+			console.log("getUserMedia success, strem created, initializing Recorder.js ...");
 
 			/* use the stream */
 			let input = audioContext.createMediaStreamSource(stream);
@@ -46,19 +64,16 @@ class App extends Component {
             */
 			let mic = new rec.Recorder(input, { numChannels: 1 })
 			mic.record();
-			// setInterval(() => {
 			setTimeout(() => {
 				this.sendAudio(mic, url);
-			}, 2000);
-			// }, 3000);
-		})
-
+			}, 3000); 
+		});
 	}
 
 	setSong = (song) => {
 		this.setState({
 			selectedSong: song
-		})
+		});
 	}
 
 	sendAudio(mic, url) {
@@ -80,14 +95,29 @@ class App extends Component {
 					});
 					this.state.player.seek(dataObject.bar * 4);
 				} else if (dataObject.type === "stop") {
-					console.log("Playback");
+					this.state.player.stop();
 				} else {
 					this.setState({
 						errorMessage: "No command heard."
-					})
+					});
 				}
 			})
 		});
+	}
+
+	setError = () => {
+		this.setState({
+			modal: true,
+			errorMessage: "Please confirm your song!"
+		});
+	}
+
+	renderErrorModal() {
+		return (
+			<Modal isOpen={this.state.modal} toggle={this.toggle}>
+				<div className="modal-standards">{this.state.errorMessage}</div>
+			</Modal>
+		);
 	}
 
 	render() {
@@ -97,12 +127,9 @@ class App extends Component {
 				<main id="background">
 					<div className="backgroundOverlay">
 						<SendAudio></SendAudio>
-						<Controls startStream={this.startStream} setSong={this.setSong}></Controls>
-						{this.state.errorMessage &&
-							<Alert color="danger">
-								{this.state.errorMessage}
-							</Alert>}
+						<Controls startStream={this.startStream} setSong={this.setSong} setError={this.setError}></Controls>
 					</div>
+					{this.renderErrorModal()}
 				</main>
 			</div>
 		);
