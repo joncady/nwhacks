@@ -102,8 +102,9 @@ class App extends Component {
 				}
 			}).then((res) => {
 				let dataObject = res.data;
-				console.log(dataObject.bar);
-				if (dataObject.type === "location") {
+				if (dataObject.type === "start") {
+					this.state.player.start();
+				} else if (dataObject.type === "location") {
 					this.setState({
 						bar: dataObject.bar
 					});
@@ -112,7 +113,8 @@ class App extends Component {
 					this.state.player.stop();
 				} else {
 					this.setState({
-						errorMessage: "No command heard."
+						errorMessage: "No command heard, please try again!",
+						modal: true
 					});
 				}
 			})
